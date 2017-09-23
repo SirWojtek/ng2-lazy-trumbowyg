@@ -5,6 +5,7 @@ import "rxjs/add/operator/switchMap";
 import "rxjs/add/operator/map";
 import {fromPromise} from "rxjs/observable/fromPromise";
 import {of} from "rxjs/observable/of";
+import {TrumbowygConfig} from "./trumbowyg.config";
 import {LoadExternalFiles} from "./load-external-file.service";
 
 const JQUERY_SCRIPT_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js';
@@ -21,7 +22,10 @@ export class TrumbowygService {
   private isLoaded$: Observable<boolean>;
   private loadedLangs: Array<string> = [];
 
-  constructor(private loadFiles: LoadExternalFiles, @Optional() config: any) {
+  constructor(
+    private loadFiles: LoadExternalFiles,
+    @Optional() config: TrumbowygConfig
+  ) {
     const pluginFiles = this.parsePlugins(config);
     const trumbowygLoadPromise = loadFiles.load(
       TRUMBOWYG_STYLES_URL, TRUMBOWYG_SCRIPT_URL, ...pluginFiles);
@@ -37,7 +41,7 @@ export class TrumbowygService {
       .refCount();
   }
 
-  private parsePlugins(config: any): string[] {
+  private parsePlugins(config: TrumbowygConfig): string[] {
     if (!config ||  !Array.isArray(config.plugins)) { return []; }
 
     return config.plugins.map(
