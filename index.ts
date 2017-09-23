@@ -11,7 +11,7 @@ import {LoadExternalFiles} from "./src/load-external-file.service";
 })
 
 export class TrumbowygModule {
-  forRoot(config: any) {
+  static forRoot(config: any) {
     return {
       NgModule: TrumbowygModule,
       providers: [
