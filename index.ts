@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import {Trumbowyg} from "./src/trumbowyg.component";
 import {TrumbowygService} from "./src/trumbowyg.service";
 import {LoadExternalFiles} from "./src/load-external-file.service";
@@ -11,9 +11,9 @@ import {LoadExternalFiles} from "./src/load-external-file.service";
 })
 
 export class TrumbowygModule {
-  static forRoot(config: any) {
+  static forRoot(config: any): ModuleWithProviders {
     return {
-      NgModule: TrumbowygModule,
+      ngModule: TrumbowygModule,
       providers: [
         { provide: TrumbowygService, useValue: config }
       ]
