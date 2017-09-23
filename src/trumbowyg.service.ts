@@ -26,14 +26,12 @@ export class TrumbowygService {
     private loadFiles: LoadExternalFiles,
     @Optional() config: TrumbowygConfig
   ) {
-    const pluginFiles = this.parsePlugins(config);
-    const trumbowygLoadPromise = loadFiles.load(
-      TRUMBOWYG_STYLES_URL, TRUMBOWYG_SCRIPT_URL, ...pluginFiles);
+    const trumbowygFiles = [ TRUMBOWYG_STYLES_URL, TRUMBOWYG_SCRIPT_URL, ...this.parsePlugins(config) ];
 
     const loadFiles$ = window && window["jQuery"] && window["jQuery"]().on ?
-      fromPromise(trumbowygLoadPromise)
+      fromPromise(loadFiles.load(...trumbowygFiles))
       : fromPromise(loadFiles.load(JQUERY_SCRIPT_URL))
-        .switchMap(() => fromPromise(trumbowygLoadPromise));
+        .switchMap(() => fromPromise(loadFiles.load(...trumbowygFiles)));
 
     this.isLoaded$ = loadFiles$
       .map(() => true)
